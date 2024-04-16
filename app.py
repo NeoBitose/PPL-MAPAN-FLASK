@@ -115,8 +115,8 @@ model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=
 model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_val, y_val))
 
 # Langkah 8: Evaluasi Model
-loss, accuracy = model.evaluate(X_test, y_test)
-print(f'Test Loss: {loss}, Test Accuracy: {accuracy}')
+# loss, accuracy = model.evaluate(X_test, y_test)
+# print(f'Test Loss: {loss}, Test Accuracy: {accuracy}')
 
 # Langkah 11: Penyimpanan Model
 model.save('D:\codingan\python\github_connect\Sem_4\PPL\plantS_disease_model.h5')
