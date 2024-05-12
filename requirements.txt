@@ -1,0 +1,9 @@
+flask
+Flask-Cors
+numpy
+pandas
+scikit-learn
+virtualenv
+tensorflow
+matplotlib
+keras

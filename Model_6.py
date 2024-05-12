@@ -127,8 +127,8 @@ loss, accuracy = model.evaluate(X_test, y_test)
 print(f'Test Loss: {loss}, Test Accuracy: {accuracy}')
 
 # Langkah 11: Penyimpanan Model
-model.save('D:\codingan\python\github_connect\Sem_4\PPL\plantS_disease_model.h5')
-model = keras.models.load_model('D:\codingan\python\github_connect\Sem_4\PPL\plantS_disease_model.h5')
+model.save('plantS_disease_model.h5')
+model = keras.models.load_model('plantS_disease_model.h5')
 
 def predict_disease_with_probability(symptoms):
     # Tokenisasi gejala
