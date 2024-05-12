@@ -148,7 +148,7 @@ def predict_disease_with_probability(symptoms):
 # Contoh pengujian
 #input_symptoms = "tanaman tunbuh kerdil pelepah daun pendek daun warna kuning atau jingga tanaman kerdil daun tua bintik bintik anakan kurang"
 #input_symptoms = "menyerang tanaman muda bercak kebasahan pada daun bercak warna hijau atau coklat daun menggulung dan kering"
-input_symptoms = "daun kering bercak pelepah daun dan helai daun gabah tidak penuh tanaman rebah"
+input_symptoms = "Bercak pada daun berbentuk oval Bercak pada tangkai Bercak muda berbentuk bulat kecil berwarna coklat gelap Ukuran bercak bisa mencapai 1cm Pada kulit gabah"
 predicted_probabilities = predict_disease_with_probability(input_symptoms)
 print("Probabilitas Prediksi Penyakit:")
 for disease, probability in predicted_probabilities.items():
