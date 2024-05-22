@@ -1,8 +1,8 @@
-
-# Fungsi untuk memprediksi penyakit berdasarkan gejala
+from flask import Flask
 import numpy as np
 import pandas as pd
 import keras
+import json
 from keras import ops
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
@@ -12,7 +12,9 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Embedding, LSTM, Dense, Dropout
 from tensorflow.keras.activations import relu
 from tensorflow.keras import regularizers
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
+app = Flask(__name__)
 
 # Dataset
 data = [
@@ -77,22 +79,13 @@ data = [
   }
 ]
 
-# # Menambahkan data tambahan
-# additional_data = [
-#     {"nama_penyakit": "Bercak Hitam", "gejala": ["Bercak hitam pada tangkai dan daun", "Daun berubah warna menjadi coklat tua", "Bercak muncul pada bagian bawah daun", "Kehilangan produktivitas tanaman"]},
-#     {"nama_penyakit": "Hawar Daun Bakteri", "gejala": ["Daun berbintik-bintik berwarna coklat kehitaman", "Bercak menyebar ke seluruh daun", "Bercak tumbuh dan bersatu membentuk garis-garis", "Pengeringan daun terjadi pada kondisi parah"]},
-#     {"nama_penyakit": "Penyakit Layu Fusarium", "gejala": ["Tanaman mulai layu dari ujung daun", "Batang berubah warna menjadi coklat", "Tanaman mati secara bertahap", "Akarnya mengalami pembusukan"]},
-#     # Tambahkan lebih banyak data penyakit jika diperlukan
-# ]
-
 # Menggabungkan data utama dan data tambahan
 # data += additional_data
-
+# Ubah data menjadi DataFrame
 for sample in data:
     sample['gejala'] = ' '.join(sample['gejala'])
-# Ubah data menjadi DataFrame
 df = pd.DataFrame(data)
-print(df)
+# print(df)
 # Langkah 2: Preprocessing Data
 tokenizer = Tokenizer()
 tokenizer.fit_on_texts(df['gejala'])
@@ -123,12 +116,15 @@ model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=
 model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_val, y_val))
 
 # Langkah 8: Evaluasi Model
-loss, accuracy = model.evaluate(X_test, y_test)
-print(f'Test Loss: {loss}, Test Accuracy: {accuracy}')
+# loss, accuracy = model.evaluate(X_test, y_test)
+# print(f'Test Loss: {loss}, Test Accuracy: {accuracy}')
 
 # Langkah 11: Penyimpanan Model
-model.save('plantS_disease_model.h5')
-model = keras.models.load_model('plantS_disease_model.h5')
+model.save('D:\codingan\python\github_connect\Sem_4\PPL\plantS_disease_model.h5')
+model = keras.models.load_model('D:\codingan\python\github_connect\Sem_4\PPL\plantS_disease_model.h5')
+
+predicted_disease = ""
+predicted_probability = ""
 
 def predict_disease_with_probability(symptoms):
     # Tokenisasi gejala
@@ -144,15 +140,6 @@ def predict_disease_with_probability(symptoms):
     # Format output sebagai dictionary dengan label dan probabilitasnya
     results = {label: prob for label, prob in zip(labels, probabilities)}
     return results
-
-# Contoh pengujian
-#input_symptoms = "tanaman tunbuh kerdil pelepah daun pendek daun warna kuning atau jingga tanaman kerdil daun tua bintik bintik anakan kurang"
-#input_symptoms = "menyerang tanaman muda bercak kebasahan pada daun bercak warna hijau atau coklat daun menggulung dan kering"
-input_symptoms = "Bercak pada daun berbentuk oval Bercak pada tangkai Bercak muda berbentuk bulat kecil berwarna coklat gelap Ukuran bercak bisa mencapai 1cm Pada kulit gabah"
-predicted_probabilities = predict_disease_with_probability(input_symptoms)
-print("Probabilitas Prediksi Penyakit:")
-for disease, probability in predicted_probabilities.items():
-    print(f"{disease}: {probability}")
 
 # Fungsi untuk memprediksi penyakit dengan probabilitas terbesar
 def predict_top_disease(symptoms):
@@ -173,8 +160,37 @@ def predict_top_disease(symptoms):
     top_probability = probabilities[top_class_index]
     return top_disease, top_probability
 
-# Contoh pengujian
-predicted_disease, predicted_probability = predict_top_disease(input_symptoms)
-print("Prediksi Penyakit Teratas:")
-print(f"Penyakit: {predicted_disease}")
-print(f"Probabilitas: {predicted_probability}")
+def pengujian(gejala):
+  global predicted_disease, predicted_probability
+  input_symptoms = gejala
+  predicted_disease, predicted_probability = predict_top_disease(input_symptoms)
+  # arry = [predicted_disease, predicted_probability]
+  return predicted_disease
+
+print(pengujian("daun kering bercak pelepah daun dan helai daun gabah tidak penuh tanaman rebah"))
+
+# def prints():
+#   return predicted_disease
+
+@app.route("/<gejala>")
+
+def main(gejala):
+  return "ok"
+  
+@app.route("/diagnosa/<gejala>")
+
+def diags(gejala):
+  data = pengujian(gejala)
+  # result = [predicted_disease, predicted_probability]
+  # return result
+  # response = app.response_class(
+  #       response=json.dumps(predicted_disease),
+  #       status=200,
+  #       mimetype='application/json'
+  #   )
+  # return response
+  return predicted_disease 
+
+  
+if __name__ == "__main__":
+    app.run()
