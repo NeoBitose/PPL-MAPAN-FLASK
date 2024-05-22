@@ -16,77 +16,18 @@ from tensorflow.keras import regularizers
 
 app = Flask(__name__)
 
-# Dataset
-# data = [
-#   {
-#     "nama_penyakit": "Bercak Coklat",
-#     "gejala": [
-#       "Bercak pada tangkai",
-#       "Bercak muda warna coklat gelap ",
-#       "Bercak daun bentuk oval",
-#       "kulit gabah bercak warna hitam",
-#       "Ukuran bercak 1cm"
-#     ]
-#   },
-#   {
-#     "nama_penyakit": "Penyakit Blast",
-#     "gejala": [
-#       "Bercak daun dan pelepah",
-#       "Bercak daun dan pelepah bentuk belah ketupat",
-#       "Malai padi tidak ada",
-#       "Tangkai busuk dan patah",
-#       "Bercak daun warna putih atau abu-abu"
-#     ]
-#   },
-#   {
-#     "nama_penyakit": "Kerdil Rumput",
-#     "gejala": [
-#       "Anakan seperti rumput",
-#       "Daun Sempit",
-#       "Daun Kaku",
-#       "Malai sedikit atau tidak ada",
-#       "bercak daun warna coklat"
-#     ]
-#   },
-#   {
-#     "nama_penyakit": "Hawar Pelepah Daun",
-#     "gejala": [
-#       "Daun kering",
-#       "Bercak pelepah daun dan helai daun",
-#       "Gabah tidak penuh",
-#       "Tanaman rebah"
-#     ]
-#   },
-#   {
-#     "nama_penyakit": "Tungro",
-#     "gejala": [
-#       "Tanaman tunbuh kerdil",
-#       "Pelepah daun pendek",
-#       "Daun warna kuning atau jingga",
-#       "Tanaman kerdil",
-#       "Daun tua bintik-bintik",
-#       "Anakan kurang"
-#     ]
-#   },
-#   {
-#     "nama_penyakit": "Kresek",
-#     "gejala": [
-#       "menyerang tanaman muda",
-#       "bercak kebasahan pada daun",
-#       "bercak warna hijau atau coklat",
-#       "Daun menggulung dan kering"
-#     ]
-#   }
-# ]
+try:
+  res = requests.get('http://127.0.0.1:8000/api/getAllPenyakit')
+except:
+  print("Dataset tidak bisa dijalankan")
+  exit()
 
-res = requests.get('http://127.0.0.1:8000/api/getAllPenyakit')
 data = json.loads(res.text)
 
-# Menggabungkan data utama dan data tambahan
-# data += additional_data
 # Ubah data menjadi DataFrame
 for sample in data:
     sample['gejala'] = ' '.join(sample['gejala'])
+    
 df = pd.DataFrame(data)
 # print(df)
 # Langkah 2: Preprocessing Data
@@ -167,7 +108,16 @@ def pengujian(gejala):
   global predicted_disease, predicted_probability
   input_symptoms = gejala
   predicted_disease, predicted_probability = predict_top_disease(input_symptoms)
-  return predicted_disease
+  predicted_probabilities = predict_disease_with_probability(input_symptoms)
+  predict_prob = []
+  for disease, probability in predicted_probabilities.items():
+    dicts = [f"{disease}", f"{probability}"]
+    predict_prob.append(dicts)
+    # print(f"{disease}: {probability}")  
+  obj_predict = [{"name": item[0], "value": item[1]} for item in predict_prob]
+  sort_obj_predict = sorted(obj_predict, key=lambda x: float(x["value"]))
+  result_diags = [{"name": f"{predicted_disease}", "value": f"{predicted_probability}"}, sort_obj_predict]
+  return result_diags
 
 print(pengujian("daun kering bercak pelepah daun dan helai daun gabah tidak penuh tanaman rebah"))
 
@@ -177,6 +127,8 @@ print(pengujian("daun kering bercak pelepah daun dan helai daun gabah tidak penu
 @app.route("/testing")
 
 def main():
+  tes = [1,2,3,4,5]
+  return tes 
   return "Model Berhasil Dijalankan..."
   
 @app.route("/diagnosa/<gejala>")
