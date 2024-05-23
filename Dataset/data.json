@@ -1,0 +1,61 @@
+[
+  {
+      "nama_penyakit": "Bercak Coklat",
+      "gejala": [
+          "Bercak pada tangkai",
+          "Bercak muda berbentuk bulat kecil berwarna coklat gelap",
+          "Bercak pada daun berbentuk oval",
+          "Pada kulit gabah bercak berwarna hitam",
+          "Ukuran bercak bisa mencapai 1cm"
+      ]
+  },
+  {
+      "nama_penyakit": "Penyakit Blast",
+      "gejala": [
+          "Daun dan pelepah terdapat bercak",
+          "Bercak daun dan pelepah berbentuk belah ketupat",
+          "Kehampaan malai padi",
+          "Tangkai mulai membusuk dan patah",
+          "Bercak pada daun berwarna keputih-putihan atau keabu-abuan"
+      ]
+  },
+  {
+      "nama_penyakit": "Kerdil Rumput",
+      "gejala": [
+          "Banyak anakan menyerupai rumput",
+          "Daun Sempit",
+          "Daun Kaku",
+          "Malai yang dihasikan sedikit bahkan tidak sama sekali",
+          "Daun bercak berwarna coklat"
+      ]
+  },
+  {
+      "nama_penyakit": "Hawar Pelepah Padi",
+      "gejala": [
+          "Daun yang terserang mengering mulai ujung",
+          "Tanda bercak pada pelepah daun dan helai daun",
+          "Gabah tidak terisi penuh hampa",
+          "Tanaman mulai rebah"
+      ]
+  },
+  {
+      "nama_penyakit": "Tungro",
+      "gejala": [
+          "Pertumbuhan tanaman kerdil",
+          "Pelepah daun memendek",
+          "Daun menguning sampai jingga dari pucuk",
+          "Tanaman menjadi kerdil",
+          "Daun tua ada bintik-bintik bekas tusukan serangga penular",
+          "Berkurangnya jumlah anakan"
+      ]
+  },
+  {
+      "nama_penyakit": "Kresek",
+      "gejala": [
+          "Umumnya menyerang pada tanaman muda 1 sampai 2 minggu",
+          "Serangan terjadi pada daun yang luka berupa bercak kebasahan",
+          "Warna bercak hijau keabu-abuan",
+          "Daun menggulung, mengering warna abu-abu keputihan"
+      ]
+  }
+]
