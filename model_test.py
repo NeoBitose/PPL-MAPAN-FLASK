@@ -20,6 +20,7 @@ label_encoder.fit(df['nama_penyakit'])
 
 # Load the trained model
 model = load_model('Models/model_test.keras')
+# model = load_model('Models/plantS_disease_model.h5')
 
 def predict_disease(symptoms):
     # Tokenize symptoms

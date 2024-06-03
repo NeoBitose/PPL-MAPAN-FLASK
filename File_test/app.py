@@ -40,7 +40,31 @@ X = pad_sequences(X)
 label_encoder = LabelEncoder()
 y = label_encoder.fit_transform(df['nama_penyakit'])
 
+# Langkah 3: Bagi Data
+X_train, X_val_test, y_train, y_val_test = train_test_split(X, y, test_size=0.3, random_state=42)
+X_val, X_test, y_val, y_test = train_test_split(X_val_test, y_val_test, test_size=0.5, random_state=42)
+
+# Langkah 4-5: Embedding dan Pilih Model
+vocab_size = len(tokenizer.word_index) + 1
+embedding_dim = 100
 max_length = len(max(X, key=len))
+
+# model = Sequential()
+# model.add(Embedding(input_dim=vocab_size, output_dim=embedding_dim, input_length=max_length))
+# model.add(LSTM(units=128, dropout=0.2, recurrent_dropout=0.2))  # Regularisasi L2
+# model.add(Dropout(0.5))
+# model.add(Dense(units=len(label_encoder.classes_), activation=relu))  # Menggunakan ReLU sebagai fungsi aktivasi
+
+# Langkah 6-7: Kompilasi Model dan Pelatihan Model
+# model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+# model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_val, y_val))
+
+# Langkah 8: Evaluasi Model
+# loss, accuracy = model.evaluate(X_test, y_test)
+# print(f'Test Loss: {loss}, Test Accuracy: {accuracy}')
+
+# Langkah 11: Penyimpanan Model
+# model.save('Models/disease_model.h5')
 model = keras.models.load_model('Models/model_penyakit.h5')
 
 predicted_disease = ""
