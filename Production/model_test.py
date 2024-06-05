@@ -1,13 +1,12 @@
 import numpy as np
 import pandas as pd
-import json
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.models import load_model
 from sklearn.preprocessing import LabelEncoder
 
 # Load dataset for obtaining tokenizer and label encoder
-df = pd.read_json('Dataset\data_lengkap.json')
+df = pd.read_json('Dataset\data.json')
 
 # Tokenization and Padding
 tokenizer = Tokenizer()
@@ -20,7 +19,7 @@ label_encoder = LabelEncoder()
 label_encoder.fit(df['nama_penyakit'])
 
 # Load the trained model
-model = load_model('Models/model_test2.keras')
+model = load_model('Models/modeltest.keras')
 # model = load_model('Models/plantS_disease_model.h5')
 
 def predict_disease(symptoms):
@@ -62,8 +61,7 @@ def testing(symptoms):
     return predicted_disease, predicted_probabilities
 
 # Example testing
-# symptoms = "Bercak pada tangkai, Bercak muda berbentuk bulat kecil berwarna coklat gelap, Bercak pada daun berbentuk oval, Pada kulit gabah bercak berwarna hitam, Ukuran bercak bisa mencapai 1cm"
-symptoms = "Daun yang terserang mengering mulai ujung, Tanda bercak pada pelepah daun dan helai daun, Gabah tidak terisi penuh hampa, Tanaman mulai rebah"
+symptoms = "Bercak pada tangkai Bercak muda berbentuk bulat kecil berwarna coklat gelap Bercak pada daun berbentuk oval Pada kulit gabah bercak berwarna hitam Ukuran bercak bisa mencapai 1cm"
 predicted_disease, predicted_probabilities = testing(symptoms)
 
 print(f"Predicted Disease: {predicted_disease}")

@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import json
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 from tensorflow.keras.preprocessing.text import Tokenizer
@@ -10,8 +9,7 @@ from tensorflow.keras.layers import Embedding, GRU, Dense, Dropout
 from tensorflow.keras.callbacks import EarlyStopping
 
 # Load dataset
-df = pd.read_json('Dataset/data_lengkap.json')
-print(df)
+df = pd.read_json('Dataset/data.json')
 
 # Tokenisasi dan Padding Data
 tokenizer = Tokenizer()
@@ -45,12 +43,17 @@ model.add(Dense(units=num_classes, activation='softmax'))
 # Kompilasi Model
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
+# Inisialisasi Early Stopping
+# early_stopping = EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
+
 # Latih Model
-model.fit(X_train, y_train, epochs=100, batch_size=32,
+# model.fit(X_train, y_train, epochs=50, batch_size=32,
+#           validation_data=(X_val, y_val), callbacks=[early_stopping])
+model.fit(X_train, y_train, epochs=50, batch_size=32,
           validation_data=(X_val, y_val))
 # Evaluasi Model
 loss, accuracy = model.evaluate(X_test, y_test)
 print(f'Test Loss: {loss}, Test Accuracy: {accuracy}')
 
 # Simpan Model
-model.save('Models/model_test2.keras')
+model.save('Models/modeltest.keras')
